@@ -1,0 +1,188 @@
+0903嵌入式
+    txtbook: 
+    ARM system on chip architecture
+    Office hour: wed 1600-1800
+
+    which means that we include everything onto a device
+
+    most system on chip device are micro controllers. We'll mostly discuss ARM
+
+    final = 4final + 3lab + 3quiz
+    lab每2-3周一个大proj？
+
+    (cfs)Mnemonics
+        • Flags and Representations
+        • Subroutines
+        • Interrupt
+        • Pipeline
+        • Encoding
+        • Memory
+        • Input/output
+        • Architecture and Components
+        • Processor Modes and Thumb Code
+        • Serial Port Interfacing
+
+    --
+    Mnemonics
+        // nkn
+        助记符，类似assembly 可花式编译
+    subroutine
+        starting edges of function(in c) / subroutine(in assembly)??
+        (edges?)
+        when you call the function, you load the instruction in the edge address
+        build = compile + link
+        obg files compiled are not directly executable.
+        (check msg from clion next time you run)
+    
+    interrupt
+        deal with events
+        eg. your phone does not use a lot of battery without someone calling you...
+        是我爸讲的中断吗？不过那个是os这个是嵌入式啊（陷入懵逼
+
+    Pipeline
+        make execution more efficient
+        (check CO)
+        (IF ID EX MEM WB)(计组2实锤)
+
+    Encoding
+        binary represented instructions
+        basically a representation..
+
+    Memory IO
+        everything
+        how CPU know the address in mem, where to read/write
+        ARM is dead metal without knowing how to get info in &out
+    • Processor Modes and Thumb 
+        arm <=> thumb 
+    • Serial Port Interfacing
+
+    History of ARM: I'm not taking notes of this()
+    mobile -> laptop market
+    simple ins set, less hardware, less power
+
+    Lab: Cortex-M3
+    STM32F103rc
+    STMicroelectronics
+    lots of info on slides...
+
+    What is a microprocessor?
+        a CPU
+        contained in one integrated circuit / silicon chip
+    modern microprocessors:
+        (cfs)Now an integrated circuit has enough transistors to contain several microprocessors or alternatively a  microprocessor and associated circuits such as memory, analogue to digital converters (ADC), digital to analogue converters (DAC) etc.
+
+    All examples used in this course will refer to the ARM7 microprocessor where ARMv7 (Cortex-M3) is used in the laboratory exercises.
+
+    然后有一大段工业界实例
+    以及关于编码的复习（）
+
+    computer as a processor
+        receive data, process it and return information back.
+        need ports for io and some kind of extra hardware...
+        
+        but connections get more over time
+
+    bus architecture
+        extended over lots of devices
+        all devices have connections onto "bus"
+
+        (cfs) A bus is a collection of electrical connections –
+        • normally 8, 16, 32 or 64 individual wires.
+        • 32 bits of data and information can pass along a 32 bit bus at the same time e.g. 
+
+    more bus...
+        however, only one devoce allowed at a time...
+        CPU control all movements on (data) bus by using an extra control bus
+
+        address bus: used by cpu to determine which location in memory is sending or receiving data.
+
+        参考计网, 其实可以做分时 / 分频, 或者优先级...
+
+--
+
+0904 lab 
+
+    Office hour: Thu 0900 - 1100
+    A7 - 913
+    (course final = 4*attendance + 3*lab + 3*final)
+    lab final = 5*hw + 3*proj + 2*attendance
+    6-7*assignments
+
+    12*attendance, must come for at least 10 times for full score.
+    Only official absences accepted
+
+    // nkn
+    两个层次的开发
+	    高层次：基于库函数 偏软件
+        低层次：基于寄存器 偏硬件 更接近课程 也更繁琐
+
+--
+
+0910 theory
+
+memory
+
+    store instructions & data
+    all in binary, though
+
+    big sequential logic circuit
+    grouped up into locations, each having a unique address
+    typically 8 bits in a location
+    address are typically 32 / 64 bits long
+
+    byte, kb, mb, gb, word...
+
+CPU
+    interprets instruction
+    calculation
+    control data bus
+    mem allocation
+
+    instruction register
+        fetch instruction to here 
+        the IR is a mem, it's just not considered part of main mem 
+
+    instruction decoder
+        determine each instruction's action 
+        in charge of control bus 
+        tells others what 2 do 
+    
+    ALU 
+        does math
+
+    Reg bank
+        yet another not main memory memory.
+        local mem of cpu, faster access than main mem 
+        storage for alu input and output 
+
+    address register
+        holds mem address value
+        during fetch, this is for the mem location of the next instruction
+        during exe, it's for a mem location to read or write.
+
+    connections:
+        internal + external
+        check slides for details
+
+    special regs 
+        r15 is always for the mem address next to exe 
+        also called program counter
+
+    
+instructions in memory
+    memory location = 8bit
+    instructions = 32bit
+    1*instruction = 4*location
+
+    usually instructions in consecutive locations
+    except for branches
+
+Mnemonics
+    they exist because humans find it hard to remember what machine code does.
+    also called assembly lang.
+    assmebler turns it into machine code.
+
+    high level lang usually use compiler to turn into assembly
+    
+
+--

@@ -1,0 +1,92 @@
+0905
+    rossil@sustc.edu.cn
+    try to use emails
+
+    week 1-7 mostly about c 
+    no new stuff only in C++
+    week 8 and after will cover cpp 
+
+    textbook: CPPPP (c++ primer plus)
+
+    final = 1*quiz + 2*midterm +  3*final + 2*lab + 2*hw
+    one hw every two weeks
+    labs checked in class? (do in advance if possile)
+
+    no need to reinvent the wheel
+    just leave a comment saying where you got it
+    very often what screwed you up also screwed a bunch of other people
+    use search engines to solve not-so-big problems
+    you can work with other people, it's good to not always be isolated...
+
+    spaghetti code
+    bad code, such as s**t full of "goto"
+    *avoid*
+
+    // there are some stuff about languages from machine to high level interpreter here, but I'm not noting that with compiler class & digital logic already covering it once...
+
+    procedural programming
+        main programming style in c lang
+        every procedure takes in some input and give some output
+
+        c++: famous extension of c, also allow oop
+        oop gives better encapsulation
+
+
+    //cfs
+    Features of C++
+        • Binding
+        • Reusable (可重用的)
+        • Protectability (可保护的)
+        • Polymorphism (多态性)- multiple definitions for operators and functions
+        • Inheritance (继承性)
+        • Portable (可移植性)
+
+    build process
+        start with source files
+        compile into object files
+        link object files & libs to make executable program 
+--
+
+
+0908何胖子的私房
+
+    程序运行的时候有虚拟空间
+    任何程序都有
+    绝对地址：物理地址，是动态分配的
+    为了方便编译器，还有一个东西叫相对地址 / 虚拟地址
+    计算机会进行mapping
+
+    C lang中，
+    编译的时候就会给分配空间
+    使用变量的时候，直接指向对应地址
+
+    对于某些变量（比如c的数组）
+    固定长度的数组在编译的时候会直接分配空间
+    但对int[]这个变量本身，它其实是个指针
+    （String作为一串char其实也是个指针）
+    （存的是个地址）指向数组的最前面
+    （汇编里你应该见过）
+    寻址的时候是 数组头+偏移量
+
+    链表这种则是完全动态分配内存的
+    struct也是储存了一个指针
+    访问struct的某一个部分时，会按照这个struct里面变量的顺序进行偏移
+
+    指针其实相当好用
+    （强制类型转换，手动取址等等）
+    但翻车也很容易翻车...
+    比如，空指针...越界...或者内存泄漏...（指针指向新对象时老空间要是不释放它就死在那里了）
+
+    越界跟os也有关...有的只能在自己的程序里跳，有的可以跑到隔壁程序，有的甚至可以进sys...
+    这也是为什么很多程序都有虚拟空间...不然太危险了...
+    因为你对自己的空间是有控制的，你可以一边跑，一边改自己的程序...(我改我自己)
+
+    指针的指针：
+    很常见的...比如一个装着struct的数组
+    （二维数组一般会被编译器压成一维）
+    所以要折腾指针的话...要弄清楚哪些变量是指针..它们又都指向什么...
+
+    强制类型转换
+    之前嵌入式跟编译的代码都可以用这种方法进行强制转换...
+    或者是两个int换成一个long这种骚操作...
+--

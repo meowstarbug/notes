@@ -1,0 +1,29 @@
+Digital logic 0904
+
+    Not teaching you how to build computers
+    but teaching basic components
+    6-7 lab asignments
+    (hmm seems like the project last year is just because there isn't enough assignments)
+
+    (R U rlly taking this srsly?)
+    (hmm I could...There aren't a lot of all eng courses...)
+
+    Von neumann architecture:
+        "this is what computers should look like"
+        - single memory for data instructions
+        - memory addressible regardless of content
+        - one ins after another
+
+        However there are other architectures...such as harvard architecture (as 黄朝星 said)(sorry 'bout the project, bro...)
+
+        bottleneck: single bus of data
+        (harvard has two busses)
+
+        keep in mind that even though most modern computers are stuck with this architecture, this is NOT the only way to design computers...
+    --
+
+    I guess I'll have a lot of "Digital circuits" and "Computer Organization" stuff...
+
+    btw georgios 的课坐前排跟后排真的完全不一样...以及georgios 是讲的真的好，真实良心...我当年都干什么了去啊（扶额）
+
+--

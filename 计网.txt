@@ -1,0 +1,376 @@
+0902计网
+    intro
+
+        office hour 周一下2 a7903
+        老师明文劝我们看课本了
+        看来今年是真的得看了...
+        甚至推荐了实体书（并被nkn吐槽这明明是武器）
+        do not read slides only, you'll need the txtbook before hw.
+
+        application - user
+        transport - end2end
+        network - router
+        link - ..?
+        physical - bit transfer
+        (是的我只是在抄黑板)
+
+        roadmap 看课件有，physical layer 之外的都会讲
+        节数看去年课件
+        tcp udp 大概是最重要的部分
+        是个小蛮腰呢（？？？）
+
+        protocols
+            application layer: tons of stuff..
+            transport layer: tcp / udp
+            network layer: ip only
+            link: multiple access protocols
+        真实的小蛮腰（）
+        嗯大概最窄的地方会考的最多（？？？）
+
+        In telephone, you finish everything in the middle nodes, ends are just telephones.
+        While in computer networks, tables turn: all the nodes in the middle are simple...they just transport stuff...everything else happen in the ends, aka coomputers...
+
+        参考阅读可以加入有生之年书单（醒醒，你有书单吗？？你tm笔记都还在扔在vscode里面！！！！）
+
+        transport end2end 要满足应用的要求，实现从server到computer按顺序传到对应位置（tcp）
+        但 transport 要能做到这个也得依赖底层
+        transport 要依赖 network 来知道e2e怎么走，怎么跳
+        link layer 要解决在路线中每一跳怎么跳，再依赖物理层解决信号的 1/0 的具体传输方式
+        底层要满足顶层
+
+        final占比（该来的还是来了）
+            不想记录了看课件8
+
+        more course info
+            超星有张进老师本人的mooc...
+            http://mooc1.chaoxing.com/course/95497722.html
+
+            But try your best to listen in class... life would be tough on your own.
+
+            Listen actively!
+
+            Interrupt ANY time 
+            // for freakin survival
+            You're not supposed to understand everything right in class. Feel ok to have something not totally clear.
+
+            --
+
+            This is an engineering course, so not everything is correct...(actually, nothing's correct...) It's just thst it's implemented this way currently. 
+            And there's the real world in engineering...lots of limitations.
+            You'll see a lot of tradeoff in every implementation.
+
+            Put yourself in the shoes of the inventor of the techlonogy... 
+            Think about how to design before learning how senpai build the thing you're using.
+
+        --
+            
+    Chapter 1
+    Internet & protocols
+
+        what is Internet:
+        by hardware:
+            hosts
+            communication links
+            packet switches
+
+        network of networks
+            ISP
+            protocols
+            standards: public protocols 
+            // some protocols are private
+
+        by service:
+            DCCS
+            // didn't cache, check slides
+            // oh, catch, sorry
+
+        // check txtbook for more
+        // keep in mind that endearoe & nkn learnt a hell lot before you, don't get discouraged
+        (and it's okay to use any style of commenting, this is human file)
+
+        protocols
+            specific messages
+            specific actions on messages
+            (specific def in slides)
+
+    network edge
+        hosts: cli & ser 
+            they run applications
+            at the edge of network
+            two models: 
+                client/server
+                diff: server support service all the time, needs to always be on.
+                // email, web
+
+                p2p
+                you get data not from server, but from another client
+                // skype
+
+        access networks
+            艹我这段没听
+            抄个安德的笔记，安德dbq
+            DSL 
+            cable network
+            ethernet, wlan
+
+        data packet
+            DCCS
+        physical media
+
+
+        network core: router & switches
+
+--
+
+0903 计网lab
+    23
+    啊 计网lab完全记不过来...
+    tracert 一路发送的报文都是遵循的网络协议
+    三列数字是三个数据包，每一个* 都是一个被弄丢的包
+    ip协议“尽力而为”？总之ip看似不是那么靠谱...靠tcp udp撑起来的
+
+    hmm看到之睿在一个一个名词的面向谷歌学习...也许我也应该试试这样？
+    ip地址的1-23位都是网口号
+    第三个数的最后一位就是主机号码了
+
+    权威应答：这个ip是我自己ping来的
+    非~~：这个ip是别的路由器告诉我的
+
+    nslookup 主要是用来查找
+
+    Q1 ipconfig
+    Q2-2 ipconfig
+    Q2-3 ping
+    Q3 netstat?
+    Q4 tracert
+
+--
+
+0909 计网
+
+    你™记得回去看课本...
+    上周也就作业勉强写完，课本完全™没看叭
+
+    The network core
+    packet switching
+        全员router
+        they do nothing but packet switching
+
+        packet switch: 
+            actually your data does not go by packet...they go by string.
+            strings get broken into packets by the hosts.
+            most packets have a standard size, but 
+            routers recieve and send.
+            nothing else.
+        
+        routers send a packet at full capacity in a link, aka they send everything one by one, each time taking up all the bandwidth.
+
+        router can start sending the next packet once the previeous one is in the link. 
+        // not neccesarily already recieved in the other side, prev packet still need to go through cable.
+
+        transmission delay: delay by bandwidth
+        （nkn)信号 / 数据 开始进入 / 传递
+        propogation delay: speed of media
+        if no propogation delay, you can recieve instantly after the sender send through link.
+
+        routers need to recieve full packet before forawarding it out.
+
+        actual time = transmission + propogation + queuing + retry
+        // 此处记得去偷nkn的理解笔记
+
+        packets would queue if in > out;
+        packets would be lost if they get the wrong packet, or if memory fill up 
+
+        parity bit checking & fixing (啊我去年期末这段好像还是nkn教我的)
+
+        what routers do: 
+            // network core version
+            routing: decide the route taken by a packet
+            forawarding: move packets to correct output link.
+
+    circuit switching: 
+        // alternative network core, not used in internet, currently used in telephone networks
+        // 电路交换？
+        while dialing, the circuit is switched and set up.
+        in connection, everything is sent directly through the circuit, the circuit retains until transmission completed.
+        no need to break into packets
+
+        guaranteed performance
+            link speed, stability
+        limited traffic
+
+        FDM / TDM (aka link sharing)
+
+        frequency division multiplexing
+            for each circuit, divide by frequency
+        time division multiplexing 
+            split into multiple timeslots, user take up entire frequency spectrum.
+        the assigned time / frequency slot is always reserved for the same user. other users can't take it even when vacant.
+
+    comparison
+        packet switching allow more people to use network simultaneously.
+        more dynamic load, great for bursty data
+        simpler, no conn setup
+        congestion and protocols. unstable in various cases.
+        bandwidth for audio / video still unresolved.
+
+    Structure of entire internet
+        end user - ISP
+        ISP - other ISPs
+        global ISP(and competitors)(and IXP)
+        regional networks
+        content provider networks: Google, Microsoft, etc., they only provide services; The only reason that they go through their own network is their bandwidth requirement
+        Internet provider network: 中国移动，中国电信
+
+        // check nkn?
+
+    delay
+        delay comes from queueing, aka arrival speed > output speed (for now)
+        delay in a node = processing + queueing + transmission + propogation (as said before)
+
+        processing: check for errors by parity, determine output link 
+        queueing: wating at output link for transmission
+        transmission: time sending the packet to link, (packet length / bandwidth)
+        propogation delay: physical link distance(obvious calculation)
+
+    loss
+        buffer crammed up
+        end to end delay = inf
+        router won't care about lost packets
+        resending is decided by host (and protocols)
+
+    throughput
+        rate data transferred
+        instantaneous / average
+        end 2 end throughput = bottleneck
+
+    layers
+        why it exist: for design and discussion
+
+        air travelling example:
+            ticket
+            baggage
+            gate 
+            takeoff
+            airplane routing
+            (and then all the way back up)
+
+            base all this on the function layer (instead of time sequence), and you get something similar to networks
+        
+        application layer cut it into packets
+        transport layer add headers to it(info such as destination)
+        network layer add own header, decide routing by destination ip
+        link layer add mac address to its own header
+        and everything is thrown through the physical layer.
+
+        switch and router might change contents of some header??
+
+        anyway...everything added as headers would be stripped down at destination.
+
+        link layer decide next router's mac address. routers decide if it's its package by this part of header.
+
+    Internet protocols stack
+        check slides, too hungry for this.
+    
+0909 discussion
+    fdm tdm还真的可以一起发生……手机就是这样……但电话线一般就这样了
+    isp是网络供应商
+    mac 在link layer 加的因为这个层之后才需要
+    到下一个router，mac address 的header就会被改
+    network下一条ip是知道的，但mac暂时不知道，link才知道
+    content要访问的话可以走自己搭的
+    但access还是需要user，跟各大isp有个巨大的exchange point
+
+    多于一跳的时候，就会有额外的time slot（pipeline）
+
+--
+
+0916
+完了，上周是不是没记lab...
+不过今天到明天大概依然是修自动机的一天呢
+packet switching and ciecuit switching cannot use together
+compatibility issues
+core of Internet: routers
+packet switching: bursty data
+circuit: stability, proformance requirements
+queueing delay:speed of packets coming in and going out
+loss: queue stuff up router
+
+layering: design & discussion
+    changing layers easier
+    easy understand
+    relationship between components
+    // nkn
+
+    however...optimization over multiple layers
+
+security
+    what in network security:
+        how can hackers attack
+        how can we defend
+    historical issues:
+        the internet is just NOT designed for security
+        the first internets are made totally based on trust between the ends
+    
+    what can attack:
+        malware
+            virus, worms
+            virus requires action from user (worms don't)
+        spyware
+            recording malware
+            (which, includes wireshark...)
+
+        dos: denial of service, trolls fill up the query queue
+        packet sniffing: in shared media, trolls can grab the packet from others
+        IP spoofing: send packet with false source address
+
+history: I'm not noting this
+
+Chapter 2!!
+network app devs
+    no need to care about the core of the internet, just the app on host
+    // nkn
+application architectures:
+    client server
+        check earlier slides
+    p2p
+        self scalability
+        complex manangement
+
+Who send/recv msg to/from network? Processes
+Where does process send/recv msg to/from? socket
+
+socket:
+    messages of processes go through this...
+    think of it as a mailbox...
+    the mailman is the os and everything below it
+
+transport service needed:
+    data integrity: some require really reliable transfer...other apps can tolerate some loss
+    timing: some apps require low delay to be effective
+    throughput
+    security
+
+transport protocol services
+TCP:
+    reliable transport(data integrity)
+    flow control, congestion control
+    no throughput guaranteed
+UDP:
+    unreliable data transfer...
+    (nkn)no need to create connection
+    saves bandwidth when you don't need data integrity
+neither can provide throughput or delay guarantee.
+
+application layer protocols define:
+    type of messages exchanged
+    message syntax
+    semantics
+    proprietary:专卖的; 专营的; 专利的
+
+web page: made of objects
+    each object addressible from url(host + path)
+    html: markup lang 
+    http: transfer protocol
+
+okay I'm not ready for notes currently, it's 12, I'm kinda sleepy, and I haven't have a meal since saturday night...

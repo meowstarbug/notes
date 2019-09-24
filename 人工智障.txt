@@ -1,0 +1,86 @@
+0904 class
+    no official txtbook
+    not everything strictly according to txtbook
+    but there is reference, and most things will be in the reference...somewhere
+
+    final = project + exam approx. 1:1
+    Attendance and projects are crucial, do NOT miss them!
+    submit your s**t on time!
+    (yeah, and your story is on the slides...)
+    (and prof even changed "adults" to "most are probably adults, if not all"...)
+
+    ai <=> math?
+        math is foundation, you'll need math for ai, and for cs overall
+        but...ai is just...not math. It's cs. No need to study hell lot of math for ai (esp. in industry), that's overkill.
+    
+    it's ok to learn from each other; just...DON'T copy-paste, okay?
+
+// okay, no more s**t 
+
+    what is AI:
+        everything you see in art - agents
+        agent is a basic terminology, abstract of ai
+        思考和行动的主体 // nkn
+    
+    dimensions of agents
+        performance & measurement
+        envirionment
+        actuators - how agent interact(aka output)
+        sensor - input
+
+    // which make humans agents as well...
+
+    ai - machines that originally was thoght to belong to only humans
+    however there's the contention of "rationally" and "humanly"...
+    and how it expresses..."thinking" or "acting"...
+
+    if you're just here for the knowledge, you don't need school. Take something else with you, other than everything in the txtbook, when you graduate.
+
+    history:
+    1956: concept appears
+    1960s: no significant result...people underestimated difficulty of ai 
+    1986: bp and other base algos
+    1990: humans realise that ai is still artificial idiot, cuz hardware is too bad.
+    2000: GPUs! finally, fine tuning!
+    now: mostly relying on...data.
+
+    even though it looks really great currently, ai development mostly still rely on hardware and stuff years ago.
+    The only reason ai did not prosper years ago is because there were no GPUs.
+
+    Deep learning seems to have boosted it recently, but it's actually math & data science boosting the industry.
+
+    要是我们都是人工智能，我们大学之前的衡量也就是那四个标准（围绕高考...）
+    但你工作了，自由了之后，高考这种简单粗暴的标准其实就没了
+    人生实际上也是没有这些标准的（）
+
+--
+
+0906 lab
+    project 1: 同去年，依然是五子棋，评分标准有些变化但目标不变
+    一个月后ddl
+    nkn探测出来的文件上限是10mb，虽然理论上塞个nn够了，但目前还是比较想走剪枝？
+
+    课本是自带示范代码的
+    
+    知乎搜五子棋
+    梅花阵
+    先手棋谱
+    看下人类必胜打法
+    （记一个开局就好...）（啊真的有点想用梅花阵诶）
+    考虑一下用什么样子的数据结构
+
+    有一个思路啊...
+    是不是可以保存文件
+    然后通过观察
+    有没有过去10s内的棋盘文件（以及棋子连接文件）
+    来确定是可行性测试还是在跟别人打架
+    可行性测试的时候直接看各大阵型
+    活四双三啥的
+    但如果是有棋盘文件的话
+    直接在现在棋盘跟过去棋盘diff一下
+    如果中间只差一个子，就直接只分析那个新棋子
+    也就是过去link完的棋子直接保存就是了
+--
+
+0918 tb 代课
+    上周你写五子棋去了...记得照着ppt跟nkn补笔记...

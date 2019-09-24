@@ -1,0 +1,362 @@
+/ ***以下内容为爹讲的 0830
+
+    知识树
+        大二课程之后（一级基础，数据结构啥的）
+        大部分知识都是并行的
+        但之间还是有一些联系
+        编译原理，os，数据库算是二级基础
+
+    os
+        高级语言-（编译器）-低级语言-（指令集）-二进制机器语言-（计算机内微码，类似fpga已经烧完的函数）-机器可以执行的与或非
+
+        高级跟低级之间有时候再加一个虚拟机
+        比如jvm就不依赖操作平台
+        java会先编译成jvm语言
+        jvm会根据平台不一样，提供不同的解释器
+        （c会快就是因为会一键编译到机器语言...）
+        华为方舟编译器就是可以安卓直接编译成机器语言...
+        但为了兼容性，内置了java解释器，允许用安卓的
+
+        解释执行：在运行的过程中，读到一段代码，就用解释器转换一段（性能极其糟糕）
+        编译执行：提前都编译好，然后再运行已经编译好的程序
+            在编译的过程中会进行一系列关于代码的检查
+            然后就出现了编译报错和运行报错两种报错
+
+            c，pascal（以及很多上古语言）是编译执行，java会编译成虚拟机语言，最终还是解释执行，python纯解释执行，语法都是在解释的时候再进行
+        
+        build 
+            编译，语法检查
+            把外部调用的include给一起加载打包进来
+
+            静态库：需要用的库的源代码，可以直接一起放进来，一起编译（很好debug，甚至你可以修改库，但编译完会很大，重新编译也要重新编译库）
+            动态连接库：类似高级的机器语言，把对库的调用默认成一条指令（dll），运行的时候可以调用就完事了，作为黑箱实现，编译器看到这种头文件声明，会有自己找到dll的方法（环境变量之类的）
+
+            dll会走os调用
+            lib这种静态运行库还不太一样...是已经编译好了的
+
+            c build 完机器码/汇编码，java build成虚拟机的码，但再往底层还是要走解释器
+        
+        操作系统：告诉计算机这坨废铁怎么工作
+        硬件的管理和调度
+            
+        关于汇编
+            寄存器永远是最贵的存储
+            所有的cache都是在它之下的
+            汇编语言只能看到寄存器
+            再往下的cache都是交给cpu完成的
+            相关的资源调度都是用微码完成的
+            有一些复杂的指令 alu搞不定的
+            会有cpu上的微码，硬件解决
+            （也有的时候会扔给gpu或者专门的机器解决）
+
+        中断
+            如果有死循环，cpu还有一个中断机制
+            ctrl c，或者报错，或者超时，还有各种io设备，都有可能产生中断
+            然后还有一个程序，决定，中断完要做什么
+            中断之间有级别，优先级高的事情可以不响应低优先级
+            程序之间也有优先级，有硬件机制来判断是否中断
+
+            中断处理：
+            有很多种策略...
+            有些在cpu上有微码处理，有些要交给os
+            硬件中断：
+                （ctrlc，断电）断电就会立马转存，ctrlc会把os调度程序抓进来，然后交给os来终止这个（os还会打开程序的善后，unload software，不然会剩很多垃圾）（以及确认输入ctrlc时，到底是想终止哪个程序）
+            软件中断：
+                onclick之类的各种io设备的触发
+                都是利用应用程序级的中断的
+                出现这些io事件时，cpu会甩锅给os，捕捉到这个动作，然后召唤那个程序的被click的反应
+
+
+        os跟驱动之间的关系
+            os在需要用硬件时会召唤硬件的驱动（类似dll）
+            把驱动弄进计算机内存，分配内存等资源，cpu控制权
+            驱动来操控真正的硬件
+
+        一个指令支持需要...
+            同样一个高级指令，有可能在编译器被变成一坨加减法，有可能被移交给os专门的动态库，有可能在硬件层面有微码，cpu上可能有对应的，也有可能会被丢给gpu专门解决...
+            也就是如果硬件出现了新功能（比如这一代硬件接受矩阵乘法了），硬件厂要跟os厂py，让他们最新版的os兼容硬件，也就是遇到这种硬件，就不要硬算矩阵乘法了...
+            硬件-操作系统/dll-编译器
+            大厂之间会有py，让彼此兼容
+
+        多核
+            单个cpu一次只能做一件事，然后就有多核了...
+
+            （当然单核还有pipeline，多核是parallelism）
+            （中文叫多线程）
+            然后就有hazard，forwarding，对调指令之类的等等
+
+            单核cpu可以做的很大，但也有物理极限
+            在这种极限下，就有多核cpu了...
+            
+            cpu的每一个核都是一个单核cpu
+            但它们之间也有信息交流（内部总线）
+            就比如共享l2cache之类的
+            更细粒度的并行（防止浪费fetch时间和空间）
+        
+        挂起
+            要是要用到硬盘的资源
+            cpu会让程序挂起，暂时跑其他任务
+            控制权会给os，调度硬盘控制器之类的
+            然后会交给硬件（参考计组）把block塞进各级cache
+            这之后再把程序唤醒，继续运行
+
+    todo
+        // os cpu 执行
+        // 虚拟机是啥啊
+        计算机运行时，cpu是执行单元
+        cpu遇到的问题：
+            // 到时候再问吧
+        调度分配
+
+    工业时间
+        麒麟890
+            四个大核，四个小核
+            大核厉害，但耗电
+            四个小核用来日常
+            大核甚至还有gpu..
+            既照顾到王者荣耀也照顾微信
+
+            多核是为了照顾后台需求
+
+    编译器相关的例子
+        函数调用的时候，带着参数
+        函数内部指针，会把控制权goto那边
+        
+        编译器会生成相应的函数调用指令
+        sp的调节啊，函数内参数的进栈出栈啊等等
+
+end亲爹讲的玩意 *** /
+
+/ *** 0903旁听（立flag全通旁听是不是有点做梦了emm）
+    （不过大概有上午第一节的话，似乎有救？）
+    
+    // 18 19级sa可还行...
+    office hours: 3-4pm tue
+
+    txtbook: 编译原理
+    compilers: principles, techniques, & tools
+    (The dragon book)
+    lab txtbook(optional):
+    编译原理实践与指导教程
+
+    final = 0.5attendance + 3.5final + 4lab + 2hw
+    有bonus
+    为什么学就不记了...你自己清楚
+
+    you can discuss, but don't copy.
+
+    the modern compiler is still literally the same as the compiler on fortran...
+
+    what does a compiler do?
+    input: high level lang 
+    out: machine lang 
+    词法分析，语法分析，语义分析，中间代码生成
+    front end also called analysis part
+    back end generate machine code. (and optimize)
+    sometimes generator is not good enough, might build new generator / optimize on hardware
+
+    lexical analyzer
+    (lexer, tokenizer)
+        src -> lexemes / "words"(called a token)
+        tokens used during syntax analyzer
+        token form: <token-name, attribute-value>
+
+        lexeme词素 - "words"
+        token词法单元 - syntactic category representing a class of lexemes
+        stream of chars -> stream of tokens
+
+        check eg on slides
+
+    parser // 语法分析
+        use token names -> syntax structure representation, aka syntax tree 
+
+        (cfs) Each interior node represents an operation and the children of the node represent the arguments of the operation
+
+        (nkn)ir的一种 语法跟src一致
+
+    semantic analysis // 语义分析
+        (nkn)利用语法树本身和符号检查程序的语义一致
+        syntax tree -> (checked) syntax tree
+        aka syntax checker?
+        semantic consistency: code follow def of lang 
+
+        analyze the operation, check consistency with lang, whether lang allows that 
+        type information & coercion(强制转换)
+
+        syntax: describes proper form of programs
+        semantics: describes the actual meaning
+        语法 vs 语义?
+
+        Programming languages define strict rules to avoid ambiguities. 
+
+    Intermediate code gen 
+        correct syntax tree -> IR / Intermediate representation
+        
+        expressive for understanding
+        simple to traslate into machine code
+        (yeah, that's why we have assembly)
+
+    Machine independent code opt 
+        IR -> better IR 
+        aka machine-made code revision
+        Improve the intermediate code for better target code on...
+            time, space, length, ...
+
+        code b4 & after opt are semantically the same
+        some opts in compilers might be error prone...
+        
+    Code gen
+        IR -> target machine code
+        anything after this is not readable by most humans
+        !!allocate reg & mem
+
+        no code is translated directly into 010101...
+        usually done by assemblers
+
+        target machine code can be any machine...normal pc(as c/cpp), jvm, washing machine(??)...
+
+    IR can be any form of representation of stuff between code - machine code...including assembly
+
+    symbol table management
+        (cfs)front end job
+        passed along w/ intermediate code to back end
+        used by semantic analyzer, code generator
+
+    Intermediate lang 
+        Intermediate code is in IL 
+        makes easier compiler implementation
+        m*code -> n*machine code <=>
+        m*code -> IL -> n*machine code
+
+    compiler <=> interpreter
+        啊 我爸好像讲过这个...
+        compiler turns everything into machine instructions, directly run on computer
+        interpreter runs every line of src directly.
+
+        interpreter: faster, no compile time, stop on err
+
+    虽然这样有点委屈nkn
+    但跟他一起上课真的好好啊555
+    你喵在之睿后宫中配拥有姓名吗（做梦）
+    
+
+end 0903旁听 *** /
+
+0903 自闭lab
+    kinda like computer organization lab
+    several small labs will build up into a giant project
+    requirements: check slides (qwq)
+    & github
+
+    bcdedit /set hypervisorlaunchtype off
+    vm ware works... probably should've give up virtual box earlier...
+    Anyway, reconfig before next class...
+    // and probably get hell lot of help from mom and dad...I'm two steps away from autism.
+--
+
+0908私房
+    编译原理
+        前端是所有不依赖于硬件和平台的
+        前端口也会进行一些代码优化，方便复用
+
+    词法分析
+        每个文本是什么意思
+        提供一个符号表（其实不只是类型，还会有地址啥的）
+        保留字，符号，var都会提供对应的编号（其实就是token）
+        每一个标识符（var）都会字面上区别开来
+        语法分析出来之后就不用处理string了
+
+        读入 - 非空字符处理 - 首字符分类 - 输出token串 - 填符号表
+        这里面大部分if then就能解决...
+
+        但实际上经常用死亡regex来进行分类
+        regex有个神奇的东西叫lex（其实是个开源工具）
+        在用regex写完规则之后
+        走lex可以直接转换成你要的c code
+        增强复用降低工作量
+
+        还会处理：非法字符，注释不闭合等等（不同编译器还会将某些工作分配给不同的部分）
+
+    语法分析
+        篇幅：语法 > 语义 > 优化 > 别的
+        要进行语法的检查
+        比如 if then 嵌套混乱
+        变量没定义这种就算语义错误
+        将一坨token表达成语法树之后再进行语义分析
+
+        终结符：无法再次进行分解的语义
+        回溯：成本，无法恢复原状，所以编译器会尽量绕开回溯跟左递归
+
+        左递归：一直用某一个可以递归匹配的（靠左，优先匹配）的式子，匹配到了死循环
+        直接跟间接左递归都有，区别是直接左递归 不经过别的表达式就能形成闭环，但本质上都是 我调我自己 （）
+
+        消除左递归：
+        直接：修改生成式，将 我调我自己 放到靠右的位置，防止无脑重复调用
+        间接：将多步形成的递归压缩成直接的
+        （自动生成的时候闭环都是一样的）
+
+        消除回溯：
+        第一个字符相同就很有可能产生回溯
+        如果分支的头不一样，那就第一次匹配的时候就会自动匹配到后面去
+        所以不让公共项放在前面就行
+        (提取公共左因子)
+        但也有一些回溯...并不能彻底消除
+        // todo L1 文法
+--
+
+0910 theory
+
+outline
+    role of lexical
+    regex specification of tokens
+    recognition of tokens
+    LA generator
+    有限自动机
+
+role of lexical
+    read input, produce tokens
+    add to symbol table
+    relate error - line #
+    eat whitespace & comments
+
+why seperated lexical:
+    lexical specification part of lang syntax
+    simple tasks pre-processesed before syntax analyzing (which needs more sophisticated structure)
+    pushdown automata <=> finite automata (which always could be done w/ pushdown, it's just overkill)
+    input device specific stuff, such as os / encoding (thx, nkn)
+
+tokens patterns lexemes
+    pattern eg: vars can't start with a number (formal description requires regex)
+    token eg: if, else, comparison, id
+    lexemes eg: <=, !=, "nekonull"...(actual tokens)(strings that match the pattern of tokens)
+
+    token attributes: seperate multiple lexemes that belong to the same category of tokens.
+
+lexical error:
+    no pattern matching src code
+    usually merged with syntax errors
+    only check code based on vars themselves, anything more than a token(unidentified vars, eg) is left for further analysis
+
+symbol table:
+    usually a seperate data structure, could be complicated(multiple tables, linked list / hashmap ...)
+
+specification of tokens
+
+strings and languages
+    alphabet: finite set of symbols
+    strings over an alphabet: finite set of symbols, all from an alphabet
+
+    more string terms: 
+    prefix, proper ~, suffix, ~~
+    substring, proper ~, subsequence
+    concatenation, exponentation
+    // 某道题目不用去重
+
+    language: countable set of strings (including infinitely countable)
+    并集，交集，kleene闭包，正闭包
+    kleene: set of strings get by concatenating language >= 0 times
+    operations on languages yield languages
+
+regex
+    ask google (you have a ladder now), youtube, your parents or copy stuff from nkn
+    too sleepy for noting this.

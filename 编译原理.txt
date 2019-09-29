@@ -306,57 +306,59 @@ end 0903旁听 *** /
 
 0910 theory
 
-outline
+    outline
+        role of lexical
+        regex specification of tokens
+        recognition of tokens
+        LA generator
+        有限自动机
+
     role of lexical
-    regex specification of tokens
-    recognition of tokens
-    LA generator
-    有限自动机
+        read input, produce tokens
+        add to symbol table
+        relate error - line #
+        eat whitespace & comments
 
-role of lexical
-    read input, produce tokens
-    add to symbol table
-    relate error - line #
-    eat whitespace & comments
+    why seperated lexical:
+        lexical specification part of lang syntax
+        simple tasks pre-processesed before syntax analyzing (which needs more sophisticated structure)
+        pushdown automata <=> finite automata (which always could be done w/ pushdown, it's just overkill)
+        input device specific stuff, such as os / encoding (thx, nkn)
 
-why seperated lexical:
-    lexical specification part of lang syntax
-    simple tasks pre-processesed before syntax analyzing (which needs more sophisticated structure)
-    pushdown automata <=> finite automata (which always could be done w/ pushdown, it's just overkill)
-    input device specific stuff, such as os / encoding (thx, nkn)
+    tokens patterns lexemes
+        pattern eg: vars can't start with a number (formal description requires regex)
+        token eg: if, else, comparison, id
+        lexemes eg: <=, !=, "nekonull"...(actual tokens)(strings that match the pattern of tokens)
 
-tokens patterns lexemes
-    pattern eg: vars can't start with a number (formal description requires regex)
-    token eg: if, else, comparison, id
-    lexemes eg: <=, !=, "nekonull"...(actual tokens)(strings that match the pattern of tokens)
+        token attributes: seperate multiple lexemes that belong to the same category of tokens.
 
-    token attributes: seperate multiple lexemes that belong to the same category of tokens.
+    lexical error:
+        no pattern matching src code
+        usually merged with syntax errors
+        only check code based on vars themselves, anything more than a token(unidentified vars, eg) is left for further analysis
 
-lexical error:
-    no pattern matching src code
-    usually merged with syntax errors
-    only check code based on vars themselves, anything more than a token(unidentified vars, eg) is left for further analysis
+    symbol table:
+        usually a seperate data structure, could be complicated(multiple tables, linked list / hashmap ...)
 
-symbol table:
-    usually a seperate data structure, could be complicated(multiple tables, linked list / hashmap ...)
+    specification of tokens
 
-specification of tokens
+    strings and languages
+        alphabet: finite set of symbols
+        strings over an alphabet: finite set of symbols, all from an alphabet
 
-strings and languages
-    alphabet: finite set of symbols
-    strings over an alphabet: finite set of symbols, all from an alphabet
+        more string terms: 
+        prefix, proper ~, suffix, ~~
+        substring, proper ~, subsequence
+        concatenation, exponentation
+        // 某道题目不用去重
 
-    more string terms: 
-    prefix, proper ~, suffix, ~~
-    substring, proper ~, subsequence
-    concatenation, exponentation
-    // 某道题目不用去重
+        language: countable set of strings (including infinitely countable)
+        并集，交集，kleene闭包，正闭包
+        kleene: set of strings get by concatenating language >= 0 times
+        operations on languages yield languages
 
-    language: countable set of strings (including infinitely countable)
-    并集，交集，kleene闭包，正闭包
-    kleene: set of strings get by concatenating language >= 0 times
-    operations on languages yield languages
+    regex
+--  
 
-regex
-    ask google (you have a ladder now), youtube, your parents or copy stuff from nkn
-    too sleepy for noting this.
+0924
+    slides progress: chapter 2 p68

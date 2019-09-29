@@ -120,69 +120,105 @@
 
 0910 theory
 
-memory
+    memory
 
-    store instructions & data
-    all in binary, though
+        store instructions & data
+        all in binary, though
 
-    big sequential logic circuit
-    grouped up into locations, each having a unique address
-    typically 8 bits in a location
-    address are typically 32 / 64 bits long
+        big sequential logic circuit
+        grouped up into locations, each having a unique address
+        typically 8 bits in a location
+        address are typically 32 / 64 bits long
 
-    byte, kb, mb, gb, word...
+        byte, kb, mb, gb, word...
 
-CPU
-    interprets instruction
-    calculation
-    control data bus
-    mem allocation
+    CPU
+        interprets instruction
+        calculation
+        control data bus
+        mem allocation
 
-    instruction register
-        fetch instruction to here 
-        the IR is a mem, it's just not considered part of main mem 
+        instruction register
+            fetch instruction to here 
+            the IR is a mem, it's just not considered part of main mem 
 
-    instruction decoder
-        determine each instruction's action 
-        in charge of control bus 
-        tells others what 2 do 
-    
-    ALU 
-        does math
+        instruction decoder
+            determine each instruction's action 
+            in charge of control bus 
+            tells others what 2 do 
+        
+        ALU 
+            does math
 
-    Reg bank
-        yet another not main memory memory.
-        local mem of cpu, faster access than main mem 
-        storage for alu input and output 
+        Reg bank
+            yet another not main memory memory.
+            local mem of cpu, faster access than main mem 
+            storage for alu input and output 
 
-    address register
-        holds mem address value
-        during fetch, this is for the mem location of the next instruction
-        during exe, it's for a mem location to read or write.
+        address register
+            holds mem address value
+            during fetch, this is for the mem location of the next instruction
+            during exe, it's for a mem location to read or write.
 
-    connections:
-        internal + external
-        check slides for details
+        connections:
+            internal + external
+            check slides for details
 
-    special regs 
-        r15 is always for the mem address next to exe 
-        also called program counter
+        special regs 
+            r15 is always for the mem address next to exe 
+            also called program counter
 
-    
-instructions in memory
-    memory location = 8bit
-    instructions = 32bit
-    1*instruction = 4*location
+        
+    instructions in memory
+        memory location = 8bit
+        instructions = 32bit
+        1*instruction = 4*location
 
-    usually instructions in consecutive locations
-    except for branches
+        usually instructions in consecutive locations
+        except for branches
 
-Mnemonics
-    they exist because humans find it hard to remember what machine code does.
-    also called assembly lang.
-    assmebler turns it into machine code.
+    Mnemonics
+        they exist because humans find it hard to remember what machine code does.
+        also called assembly lang.
+        assmebler turns it into machine code.
 
-    high level lang usually use compiler to turn into assembly
-    
+        high level lang usually use compiler to turn into assembly
+        
+--
+
+0924 theory
+    assembly lang is made of a bunch of mnemonics in the executing order
+    assembler turns it into machine lang
+
+    instructions:
+        add, sub, rsb (reverse sub)
+        mul, mla (mul with 2 regs for result)
+        and, or, xor, blc(bit clear)
+
+    addressing
+        reg: r1(which is an address itself)
+
+        immediate: use the value directly (for arithmetic or as the address)
+        (but space is not enough if everything's in immediate addressing)
+        // nkn
+        § 实际中留给立即数的只有12个bit 为了表示足够大的数 用8bit表示数值 剩下4bit表示位置
+        以及好像有别的规则总之mov搞不定32bits...
+
+        indirect: HRM里面的括号（？？？）
+        use a value stored in reg as address
+        instruction: LDR, STR 
+        这两个一次都会处理四个连续的memory address 里的内容（因为reg有4byte, mem 只有1byte）
+        big endian, little endian 决定这四个byte哪个会在reg的最前面（aka次序）
+        也可以只处理 halfword 或者只处理 一个byte
+
+        offset: 
+            LDR r6, [r11, #12] 会偏移12，但r11不变
+            LDR r6, [r11, #12]! 会偏移12，r11在执行之前就被加12
+            LDR r6, [r11], #12 会偏移12，r11在执行之后加12
+        
+    lec2还有一些别的
+        
+    flags and branches
+
 
 --

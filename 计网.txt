@@ -384,6 +384,85 @@
     电脑最终的访问还是用ip，dns是用来找ip的
     dns攻击就是在这里让你访问错误的ip
 
+--
+1014 theory
+    ok 我大概也就差一整章的笔记吧，今天开chap3算是死得明明白白了（）
+    你回宿舍记得把计网上周作业搞了 + 啃课本
+
+    C3: transport layer
+
+        network layer only care if it's transmited to the correct host
+        whether it's sent to the correct process is up to the transport layer
+        
+        multiplexing - 参考计组里的mux
+        不过似乎理解为将不同socket的东西一起打包传过去，会比较简单粗暴
+        de-mux也就是将到这里的东西分发到端口上
+        再往下一层就没包了，都是bitstream了...
+
+        transport sockets are identified by a tuple: src ip, src port, dest ip, dest port
+
+        connection oriented demux?
+
+    UDP
+        best effort service
+        about as reliable as nekonull's best effort message replies()
+
+        used for (other than stream media) DNS, SNMP
+        DNS: speed, small packet
+        SNMP 到底是啥啊（你他妈记得补笔记啊艹）
+
+        UDP reliability relies on stuff on application layer
+
+        segment header:
+            src port
+            dest port
+            length
+            checksum (aka parity, check 计组 for more info) (不过计网的 checksum 机制还不太一样就是了...tldr 真实的 checksum)
+        and then there's the application data, or payload (reminds me of Overwatch...)
+
+    reliable data transfer
+        - currently: unidirectional transfer, control flow on both directions -
+        use FSM to specify sender and reciever
+
+        - RDT 1.0: underlying channel perfectly reliable -
+        - RDT 2.0: channel has errors -
+        error detection (checksum) & feedback (control messages)
+
+        啊 nkn以前用过的ACK原来就是计网里“接收正常”的意思吗...我原来五百年了还没去查吗（）
+
+        我其实不是很确定再去看fsm能不能看得懂，期中如果还看不懂就滚去答疑叭（）
+
+        ack / nak corrupted: sender 陷入彻底懵逼，也不能随便重传，不然接收端不知道是不是重复的...(加 sequence number)
+        总之最后就是自动机会被修得巨tm复杂...感觉复习的时候要跟计组chap4那样，打一个大表，一个个情况轮流过了
+        2.1 处理坏掉的ack, 2.2 加序号一劳永逸，删掉nak
+
+        - RDT 3.0: channel below can lose entire packet and ACKs -
+--
+1015 lab
+    下午先写计算机导论...
+    CDN
+    proxy
+        basic: 
+            request & response transit & routing
+            also could be filtering, firewall, cache...
+        forward proxy
+            acts on client
+            reduce # of connections
+        reverse proxy
+            get stuff from servers, work as web server for clients
+            caching, load balancing, protection...
+    web caching
+        web browser caching
+        consistency validation
+        cache server
+        cache support in http (& related headers)
+        cacheability (saving some resources, such as post, is not doable)
+        multilayer caching
+        cache control
+    DASH
+        Dynamic Adaptive Streaming over HTTP
+
+--
 填坑
     多看RFC，所有的协议都是基于它实现的
     计网lab3
@@ -408,58 +487,19 @@
         echo server multithreading
         asyncio
 
---
-
-1014 theory
-    ok 我大概也就差一整章的笔记吧，今天开chap3算是死得明明白白了（）
-    不过停水 + 昨天忘了洗澡 + 还有洗头洗衣服 + 内存被nkn炸掉，今天可真是棒极了啊（苦笑）
-    你回宿舍记得吃药 + 先把计网上周作业搞了 + 啃课本
-
-C3: transport layer
-
-    network layer only care if it's transmited to the correct host
-    whether it's sent to the correct process is up to the transport layer
+    lab 5
+    theory
+        dns
+        message structure
+        query & resp
+        msg headers
+        resource record (aka structures)
+        EDNS
     
-    multiplexing - 参考计组里的mux
-    不过似乎理解为将不同socket的东西一起打包传过去，会比较简单粗暴
-    de-mux也就是将到这里的东西分发到端口上
-    再往下一层就没包了，都是bitstream了...
+    code
+        decode msg header
+        dig (included in bind) (reinstall MSVC 2012 to resolve dll missing)
+        dig + EDNS
 
-    transport sockets are identified by a tuple: src ip, src port, dest ip, dest port
 
-    connection oriented demux?
-
-UDP
-    best effort service
-    about as reliable as nekonull's best effort message replies()
-
-    used for (other than stream media) DNS, SNMP
-    DNS: speed, small packet
-    SNMP 到底是啥啊（你他妈记得补笔记啊艹）
-
-    UDP reliability relies on stuff on application layer
-
-    segment header:
-        src port
-        dest port
-        length
-        checksum (aka parity, check 计组 for more info) (不过计网的 checksum 机制还不太一样就是了...tldr 真实的 checksum)
-    and then there's the application data, or payload (reminds me of Overwatch...)
-
-reliable data transfer
-    - currently: unidirectional transfer, control flow on both directions -
-    use FSM to specify sender and reciever
-
-    - RDT 1.0: underlying channel perfectly reliable -
-    - RDT 2.0: channel has errors -
-    error detection (checksum) & feedback (control messages)
-
-    啊 nkn以前用过的ACK原来就是计网里“接收正常”的意思吗...我原来五百年了还没去查吗（）
-
-    我其实不是很确定再去看fsm能不能看得懂，期中如果还看不懂就滚去答疑叭（）
-
-    ack / nak corrupted: sender 陷入彻底懵逼，也不能随便重传，不然接收端不知道是不是重复的...(加 sequence number)
-    总之最后就是自动机会被修得巨tm复杂...感觉复习的时候要跟计组chap4那样，打一个大表，一个个情况轮流过了
-    2.1 处理坏掉的ack, 2.2 加序号一劳永逸，删掉nak
-
-    - RDT 3.0: channel below can lose entire packet and ACKs -
+--

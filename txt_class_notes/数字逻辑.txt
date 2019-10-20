@@ -27,3 +27,30 @@ Digital logic 0904
     btw georgios 的课坐前排跟后排真的完全不一样...以及georgios 是讲的真的好，真实良心...我当年都干什么了去啊（扶额）
 
 --
+
+1017
+    目前学的主要是vivado软件的使用
+        源代码，各种文件位置
+        报错log位置，信息解读
+        RTL级别
+        FPGA级别
+        生成比特文件报错？
+    以及语言的一些功能
+
+    翻车实录：
+    各个变量如果没有初始化就都是不定态
+    assign, block, begin-end
+    initial跟begin-end之间别乱放东西，不然会认定中间的东西是init，begin-end是游离，但要么要在always要么要在init里面
+
+    行为级建模：电路应该怎么刷新输出信号
+    核心就是 init always
+    init: 只执行一次
+    always: 可以执行很多次（如果是*就是组合逻辑了）
+
+    不用方括号指定的位宽是1
+    不指定类型的都是wire
+    init always里被赋值的都做成reg
+
+填坑：
+    时序电路熟练度
+    UDP

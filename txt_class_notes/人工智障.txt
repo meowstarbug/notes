@@ -82,4 +82,7 @@
     也就是过去link完的棋子直接保存就是了
 --
 
-1011
+1016
+    cutoff 之后不一定有能力评估收益
+    这个时候就要走 heuristic （真的，不知道的人会以为是 a-star...）
+    minimax in general cases: could have no opponent

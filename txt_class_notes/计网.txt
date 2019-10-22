@@ -439,7 +439,6 @@
         - RDT 3.0: channel below can lose entire packet and ACKs -
 --
 1015 lab
-    下午先写计算机导论...
     CDN
     proxy
         basic: 
